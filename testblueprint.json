@@ -904,6 +904,11 @@
           "name" : "RESOURCEMANAGER"
         }
       ],
+      "hosts" : [
+        {
+          "fqdn" : "fed.ambari.agent"
+        }
+      ],
       "configurations" : [ ],
       "name" : "host_group_1",
       "cardinality" : "1"
