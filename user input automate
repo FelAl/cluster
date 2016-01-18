@@ -1,0 +1,1 @@
+ expect -c 'spawn ssh deploy@10.62.230.150; expect password; send *****;expect orch01; send ls\n; interact'

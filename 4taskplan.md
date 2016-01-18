@@ -136,10 +136,13 @@ curl  -u admin:admin http://a7cc93d5.ngrok.io/api/v1/clusters/test?format=bluepr
 Загрузка blueprint файла
 curl  -i -H "X-Requested-By: ambari" --data "@/home/alfe/mkdev/bigdata/cluster/testblueprint.json" -u admin:admin -X POST http://a7cc93d5.ngrok.io/api/v1/blueprints/testblueprint
 
+curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/testblueprint.json" -u admin:admin -X POST http://localhost:8080/api/v1/blueprints/testblueprint
+
+
 10. пересоздание виртуалок, но создание кластера с помощью блупринт файла +
 
 
-curl  -i -H "X-Requested-By: ambari" --data "@/home/alfe/mkdev/bigdata/cluster/creationtempl.json" -u admin:admin -X POST http://a7cc93d5.ngrok.io/api/v1/clusters/test
+curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/creationtempl.json" -u admin:admin -X POST http://localhost:8080/api/v1/clusters/test
 
 
 
