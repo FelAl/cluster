@@ -65,6 +65,7 @@ Vagrant.configure(2) do |config|
       inline: 'echo "10.20.30.40 fed.ambari.server" | sudo tee --append /etc/hosts > /dev/null'
     node.vm.provision "shell",
       inline: 'sudo sed -i "16s/.*/hostname=fed.ambari.server/" /etc/ambari-agent/conf/ambari-agent.ini'
+    node.vm.provision "shell", inline: "ambari-agent start"
     node.vm.provider :libvirt do |domain|
       domain.memory = 12_000
       domain.cpus = 2
