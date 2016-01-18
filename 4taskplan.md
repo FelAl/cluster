@@ -153,3 +153,10 @@ curl  -i -H "X-Requested-By: ambari" --data "@/home/alfe/mkdev/bigdata/cluster/c
 ```
 чуть что не понятно - читайте доки, непонятно после доков или непонятно что читать или "непонятные ошибки" - сразу пишите
 ```
+
+
+
+```sh
+alfe@rt:~$ ifconfig | sed -n 2p | cut -d ":" -f 2 | cut -d " " -f 1
+192.168.0.106
+```
