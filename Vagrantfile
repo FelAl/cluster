@@ -19,7 +19,6 @@ Vagrant.configure(2) do |config|
     node.vm.hostname = "fed.ambari.server"
     node.vm.box = "centos7"
     node.vm.network :private_network, :ip => "10.20.30.40"
-    node.vm.provision "shell", inline: "echo AmbariServer!!"
     node.vm.provision "shell", inline: "sudo yum -y install nano"
     node.vm.provision "shell", inline: "sudo yum -y install expect"
     node.vm.provision "shell", inline: "sudo yum install -y unzip"
@@ -36,7 +35,6 @@ Vagrant.configure(2) do |config|
       inline: 'echo "10.20.30.41 fed.ambari.agent" | sudo tee --append /etc/hosts > /dev/null'
     node.vm.provision "shell", inline: "sudo yum -y install ambari-server"
     node.vm.provision "shell", path: "/home/alfe/mkdev/bigdata/cluster/ambsersetup.sh"
-    node.vm.provision "shell", inline: "echo Pause"
     node.vm.provision "shell", inline: "sudo ambari-server start"
     node.vm.provision "shell", inline: 'curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/testblueprint.json" -u admin:admin -X POST http://localhost:8080/api/v1/blueprints/testblueprint'
     node.vm.provision "shell", inline: 'curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/creationtempl.json" -u admin:admin -X POST http://localhost:8080/api/v1/clusters/test'
@@ -51,11 +49,9 @@ Vagrant.configure(2) do |config|
     node.vm.hostname = "fed.ambari.agent"
     node.vm.box = "centos7"
     node.vm.network :private_network, :ip => "10.20.30.41"
-    node.vm.provision "shell", inline: "echo AmbariAgent!!"
     node.vm.provision "shell", inline: "sudo yum -y install nano"
     node.vm.provision "shell", inline: "sudo yum -y install ntp"
     node.vm.provision "shell", inline: "sudo systemctl start ntpd"
-    node.vm.provision "shell", inline: "/sbin/ifconfig"
     node.vm.provision "shell", inline: "sudo wget -nv http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.2.0.0/ambari.repo -O /etc/yum.repos.d/ambari.repo"
     node.vm.provision "file",
       source: "/home/alfe/mkdev/bigdata/cluster/creationtempl.json",
