@@ -1,0 +1,7 @@
+https://sachinsharm.wordpress.com/2013/10/11/installsetup-and-configure-chef-serverworkstationnode-on-centosrhel-6-4/
+
+http://zeroturnaround.com/rebellabs/pragmatic-devops-how-to-create-your-first-environment-with-chef-and-vagrant/
+
+http://www.dragdropsite.com/tutorials/creating-development-environments-vagrant-chef/
+
+http://leopard.in.ua/2013/01/04/chef-solo-getting-started-part-1/
