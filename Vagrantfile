@@ -7,6 +7,7 @@
 # you're doing.
 
 Vagrant.configure(2) do |config|
+  @vagrant_server = "fed.ambari.server"
   config.vm.provider :libvirt do |libvirt|
     libvirt.host = "fj2.citozin.com"
     libvirt.username = "root"
@@ -19,25 +20,25 @@ Vagrant.configure(2) do |config|
     node.vm.hostname = "fed.ambari.server"
     node.vm.box = "centos7"
     node.vm.network :private_network, :ip => "10.20.30.40"
+    node.vm.provision :hosts do |provisioner|
+      provisioner.add_host '10.20.30.41', ['fed.ambari.agent']
+    end
 
     node.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "cookbooks"
       chef.verbose_logging = true
+      chef.add_recipe "apt"
       chef.add_recipe "yum::server"
+      chef.add_recipe "ambari::server"
       chef.add_recipe "mybook::server"
     end
 
-    node.vm.provision "file",
-      source: "/home/alfe/mkdev/bigdata/cluster/testblueprint.json",
-      destination: "/home/vagrant/testblueprint.json"
-    node.vm.provision "file",
-      source: "/home/alfe/mkdev/bigdata/cluster/creationtempl.json",
-      destination: "/home/vagrant/creationtempl.json"
 
-    node.vm.provision "shell", path: "/home/alfe/mkdev/bigdata/cluster/ambsersetup.sh"
-    node.vm.provision "shell", inline: "sudo ambari-server start"
-    node.vm.provision "shell", inline: 'curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/testblueprint.json" -u admin:admin -X POST http://localhost:8080/api/v1/blueprints/testblueprint'
-    node.vm.provision "shell", inline: 'curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/creationtempl.json" -u admin:admin -X POST http://localhost:8080/api/v1/clusters/test'
+    # --- coming soon
+    # node.vm.provision "shell", inline: "sudo ambari-server start"
+    # node.vm.provision "shell", inline: 'curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/testblueprint.json" -u admin:admin -X POST http://localhost:8080/api/v1/blueprints/testblueprint'
+    # node.vm.provision "shell", inline: 'curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/creationtempl.json" -u admin:admin -X POST http://localhost:8080/api/v1/clusters/test'
+
 
     node.vm.provider :libvirt do |domain|
       domain.memory = 6000
@@ -50,7 +51,9 @@ Vagrant.configure(2) do |config|
     node.vm.hostname = "fed.ambari.agent"
     node.vm.box = "centos7"
     node.vm.network :private_network, ip: "10.20.30.41"
-
+    node.vm.provision :hosts do |provisioner|
+      provisioner.add_host '10.20.30.40', ['fed.ambari.server']
+    end
     node.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "cookbooks"
       chef.verbose_logging = true

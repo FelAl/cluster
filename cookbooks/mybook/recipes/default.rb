@@ -16,23 +16,10 @@ template "agent.init.conf" do
   notifies :restart, service: "ambari-agent"
 end
 
-template "etchosts" do
-  path "#{node[:mybook][:hosts_file]}"
-  source "etchosts.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  # notifies :restart, resources(:service => "redis")
-end
-
-service "ntp" do
-  start_command "sudo systemctl start ntpd"
-  action :start
+service "ntpd" do
+  action [:enable, :start]
 end
 
 service "ambari-agent" do
-  start_command "ambari-agent start"
-  stop_command "ambari-agent stop"
-
-  action :start
+  action [:enable, :start]
 end

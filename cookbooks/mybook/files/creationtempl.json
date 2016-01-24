@@ -1,0 +1,10 @@
+{
+  "blueprint": "testblueprint",
+  "default_password": "123qwe",
+  "host_groups": [
+    { "hosts": [
+        { "fqdn": "fed.ambari.agent" }
+      ], "name": "host_group_1"
+    }
+  ]
+}
