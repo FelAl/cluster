@@ -127,7 +127,7 @@ https://cwiki.apache.org/confluence/display/AMBARI/Ambari+Design
 9. скачивание blueprint файла +
 
 blueprints list
-curl  -u admin:admin http://a7cc93d5.ngrok.io/api/v1/blueprints
+curl  -u admin:admin http://localhost:8080/api/v1/blueprints
 
 
 get blueprint
@@ -164,7 +164,55 @@ alfe@rt:~$ ifconfig | sed -n 2p | cut -d ":" -f 2 | cut -d " " -f 1
 192.168.0.106
 ```
 
-12. Chef
+12. Chef +
 http://reiddraper.com/first-chef-recipe/
    a) установка yum через chef
    b) тимплейты файлов через chef
+
+13.
+```
+
+---- >>>>> In progress
+
+execute "blueprint load" do лучше переделать в стандартный ресурс шефа http_request
+execute "cluster setup" do то же самое
+и если делать идеально - то стоит сначала проверить что данный блупринт не загружен, а то будет по 6 раз пытать на каждый вызов провизионера
+
+
+---- >>>>> In progress
+```ruby
+ialfe@rt:~$ irb
+irb(main):001:0> require "net/http"
+=> true
+irb(main):002:0> require "uri"
+=> false
+irb(main):003:0> uri = URI.parse("http://2a5b7b70.ngrok.io/api/v1/blueprints")
+=> #<URI::HTTP http://2a5b7b70.ngrok.io/api/v1/blueprints>
+irb(main):004:0> http = Net::HTTP.new(uri.host, uri.port)
+=> #<Net::HTTP 2a5b7b70.ngrok.io:80 open=false>
+irb(main):005:0> request = Net::HTTP::Get.new(uri.request_uri)
+=> #<Net::HTTP::Get GET>
+irb(main):006:0> request.basic_auth("admin", "admin")
+=> ["Basic YWRtaW46YWRtaW4="]
+irb(main):007:0> response = http.request(request)
+=> #<Net::HTTPOK 200 OK readbody=true>
+irb(main):008:0> response.body
+=> "{\n  \"href\" : \"http://2a5b7b70.ngrok.io/api/v1/blueprints\",\n  \"items\" : [\n    {\n      \"href\" : \"http://2a5b7b70.ngrok.io/api/v1/blueprints/testblueprint\",\n      \"Blueprints\" : {\n        \"blueprint_name\" : \"testblueprint\"\n      }\n    }\n  ]\n}"
+irb(main):009:0> response.body.include?(('"blueprint_name" : "testblueprint"'))
+=> true
+irb(main):010:0> response.body.include?(('"blueprint_name" : "testblueprint213"'))
+=> false
+irb(main):011:0> 
+```
+
+
+
+
+----->>>>
+
+
+это обычная ошибка новичка, но в продакшене первым делом фиксить приходится - лучше сразу идеально сделать и дальше держать в голове
+важный момент с action :start
+лучше делать и старт и enable в данном случае
+а вот почему - вопрос к вам
+```

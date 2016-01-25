@@ -28,8 +28,8 @@ Vagrant.configure(2) do |config|
       chef.cookbooks_path = "cookbooks"
       chef.verbose_logging = true
       chef.add_recipe "apt"
-      chef.add_recipe "yum::server"
-      chef.add_recipe "ambari::server"
+      # chef.add_recipe "yum::server"
+      # chef.add_recipe "ambari::server"
       chef.add_recipe "mybook::server"
     end
 
