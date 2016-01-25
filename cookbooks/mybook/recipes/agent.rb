@@ -17,9 +17,9 @@ template "agent.init.conf" do
 end
 
 service "ntpd" do
-  action :start
+  action :enable, :start
 end
 
 service "ambari-agent" do
-  action :start
+  action :enable, :start
 end
