@@ -33,13 +33,6 @@ Vagrant.configure(2) do |config|
       chef.add_recipe "mybook::server"
     end
 
-
-    # --- coming soon
-    # node.vm.provision "shell", inline: "sudo ambari-server start"
-    # node.vm.provision "shell", inline: 'curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/testblueprint.json" -u admin:admin -X POST http://localhost:8080/api/v1/blueprints/testblueprint'
-    # node.vm.provision "shell", inline: 'curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/creationtempl.json" -u admin:admin -X POST http://localhost:8080/api/v1/clusters/test'
-
-
     node.vm.provider :libvirt do |domain|
       domain.memory = 6000
       domain.cpus = 2
