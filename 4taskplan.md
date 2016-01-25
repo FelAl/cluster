@@ -127,7 +127,7 @@ https://cwiki.apache.org/confluence/display/AMBARI/Ambari+Design
 9. скачивание blueprint файла +
 
 blueprints list
-curl  -u admin:admin http://a7cc93d5.ngrok.io/api/v1/blueprints
+curl  -u admin:admin http://localhost:8080/api/v1/blueprints
 
 
 get blueprint

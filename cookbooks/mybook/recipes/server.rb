@@ -1,11 +1,3 @@
-# template "etchosts" do
-#   path "#{node[:mybook][:hosts_file]}"
-#   source "etchosts.erb"
-#   owner "root"
-#   group "root"
-#   mode "0644"
-# end
-
 cookbook_file "/home/vagrant/testblueprint.json" do
   source "testblueprint.json"
   owner "vagrant"
@@ -21,17 +13,23 @@ cookbook_file "/home/vagrant/creationtempl.json" do
 end
 
 service "ambari-server" do
-  action :start
+  action [:enable, :start]
 end
 
-execute "blueprint load" do
-  command 'curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/testblueprint.json" -u admin:admin -X POST http://fed.ambari.server:8080/api/v1/blueprints/testblueprint'
-  retries 6
-  retry_delay 10
+http_request "blueprint upload" do
+  action :post
+  url "http://localhost:8080/api/v1/blueprints/testblueprint"
+  headers({ "AUTHORIZATION" => "Basic #{
+      Base64.encode64('admin:admin')}", "X-Requested-By" => "ambari" })
+  message ::File.read("/home/vagrant/testblueprint.json")
+  not_if 'curl  -u admin:admin http://localhost:8080/api/v1/blueprints | grep "\"blueprint_name\" : \"testblueprint\""'
 end
 
-execute "cluster setup" do
-  command 'curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/creationtempl.json" -u admin:admin -X POST http://fed.ambari.server:8080/api/v1/clusters/test'
-  retries 6
-  retry_delay 10
+http_request "cluster test setup" do
+  action :post
+  url "http://localhost:8080/api/v1/clusters/test"
+  headers({ "AUTHORIZATION" => "Basic #{
+      Base64.encode64('admin:admin')}", "X-Requested-By" => "ambari" })
+  message ::File.read("/home/vagrant/creationtempl.json")
+  not_if 'curl  -u admin:admin http://localhost:8080/api/v1/clusters | grep "\"cluster_name\" : \"test\""'
 end
