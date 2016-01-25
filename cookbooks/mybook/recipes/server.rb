@@ -13,7 +13,7 @@ cookbook_file "/home/vagrant/creationtempl.json" do
 end
 
 service "ambari-server" do
-  action :enable, :start
+  action [:enable, :start]
 end
 
 ruby_block "http requests" do
