@@ -127,7 +127,7 @@ https://cwiki.apache.org/confluence/display/AMBARI/Ambari+Design
 9. скачивание blueprint файла +
 
 blueprints list
-curl  -u admin:admin http://a7cc93d5.ngrok.io/api/v1/blueprints
+curl  -u admin:admin http://localhost:8080/api/v1/blueprints
 
 
 get blueprint
@@ -148,8 +148,8 @@ curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/creationtempl.json" 
 
 
 
-------------------------
-11. перенос знаний в шеф и вагрант и реализация всего за две команды ===>>>> In progress
+
+11. перенос знаний в шеф и вагрант и реализация всего за две команды +
 
 `важный момент - агент должен быть подключен к мастеру до загрузки блупринт файла, многие долго до этого доходят`
 
@@ -163,3 +163,9 @@ curl  -i -H "X-Requested-By: ambari" --data "@/home/vagrant/creationtempl.json" 
 alfe@rt:~$ ifconfig | sed -n 2p | cut -d ":" -f 2 | cut -d " " -f 1
 192.168.0.106
 ```
+
+12. Chef
+http://reiddraper.com/first-chef-recipe/
+   a) установка yum через chef
+   b) тимплейты файлов через chef
+   
