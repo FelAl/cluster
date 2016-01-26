@@ -168,3 +168,4 @@ alfe@rt:~$ ifconfig | sed -n 2p | cut -d ":" -f 2 | cut -d " " -f 1
 http://reiddraper.com/first-chef-recipe/
    a) установка yum через chef
    b) тимплейты файлов через chef
+   
