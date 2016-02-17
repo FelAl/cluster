@@ -1,0 +1,23 @@
+yum groupinstall "Development tools"
+--
+egrep '(vmx|svm)' /proc/cpuinfo
+yum install qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client virt-install virt-viewer
+--
+cd /var/lib/libvirt/qemu
+$ sudo chown -R nobody:kvm channel dump
+--
+sudo service libvirtd restart
+--
+yum info qemu-kvm
+yum info libvirt
+
+
+
+
+
+network issues
+https://www.digitalocean.com/community/tutorials/how-to-use-traceroute-and-mtr-to-diagnose-network-issues
+
+http://stackoverflow.com/questions/19221252/how-to-move-copy-files-locally-with-chef/19706896#19706896
+
+https://www.howtoforge.com/how-to-install-kvm-and-libvirt-on-centos-6.2-with-bridged-networking

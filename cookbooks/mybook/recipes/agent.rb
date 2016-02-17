@@ -21,5 +21,19 @@ service "ntpd" do
 end
 
 service "ambari-agent" do
-  action  [:enable, :start]
+  action [:enable, :start]
+end
+
+remote_file "/home/vagrant/ngrok.zip" do
+  source "https://dl.ngrok.com/ngrok_2.0.19_linux_amd64.zip"
+  owner "vagrant"
+  group "vagrant"
+  mode "0755"
+  action :create
+end
+
+execute "extract ngrok" do
+  command "unzip ngrok.zip"
+  cwd "/home/vagrant/"
+  not_if { File.exist?("/home/vagrant/ngrok") }
 end

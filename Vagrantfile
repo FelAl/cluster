@@ -9,7 +9,7 @@
 Vagrant.configure(2) do |config|
   @vagrant_server = "fed.ambari.server"
   config.vm.provider :libvirt do |libvirt|
-    libvirt.host = "fj2.citozin.com"
+    libvirt.host = "69.64.34.35"
     libvirt.username = "root"
     libvirt.connect_via_ssh = true
   end
@@ -20,6 +20,7 @@ Vagrant.configure(2) do |config|
     node.vm.hostname = "fed.ambari.server"
     node.vm.box = "centos7"
     node.vm.network :private_network, :ip => "10.20.30.40"
+    node.vm.network "forwarded_port", guest: 8080 , host: 10000
     node.vm.provision :hosts do |provisioner|
       provisioner.add_host '10.20.30.41', ['fed.ambari.agent']
     end
@@ -28,7 +29,11 @@ Vagrant.configure(2) do |config|
       chef.cookbooks_path = "cookbooks"
       chef.verbose_logging = true
       chef.add_recipe "apt"
+      chef.add_recipe "sysctl"
+      chef.add_recipe "ohai"
+      chef.add_recipe "yum-epel"
       chef.add_recipe "yum::server"
+      chef.add_recipe "openvpn::install"
       chef.add_recipe "ambari::server"
       chef.add_recipe "mybook::server"
     end
@@ -44,6 +49,8 @@ Vagrant.configure(2) do |config|
     node.vm.hostname = "fed.ambari.agent"
     node.vm.box = "centos7"
     node.vm.network :private_network, ip: "10.20.30.41"
+    node.vm.network "forwarded_port", guest: 8080, host: 8888
+    node.vm.network "forwarded_port", guest: 50070, host: 50070
     node.vm.provision :hosts do |provisioner|
       provisioner.add_host '10.20.30.40', ['fed.ambari.server']
     end
