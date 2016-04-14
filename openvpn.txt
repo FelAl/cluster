@@ -94,7 +94,10 @@ sudo iptables -t nat -I PREROUTING -p tcp --dport 50070 -j DNAT --to-destination
 sudo iptables -t nat -A OUTPUT -p tcp --dport 50070 -j DNAT --to-destination 127.0.1.1:50070
 
 telnet 10.20.30.41 8020
+namenode
 sudo iptables -t nat -I PREROUTING -p tcp --dport 8020 -j DNAT --to-destination 127.0.1.1:8020
+datanode
+sudo iptables -t nat -I PREROUTING -p tcp --dport 50010 -j DNAT --to-destination 127.0.1.1:50010
 --
 
 

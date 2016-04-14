@@ -54,9 +54,15 @@ Vagrant.configure(2) do |config|
     node.vm.provision :hosts do |provisioner|
       provisioner.add_host '10.20.30.40', ['fed.ambari.server']
     end
+
     node.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "cookbooks"
       chef.verbose_logging = true
+      chef.add_recipe "ohai"
+      chef.add_recipe "sysctl::ambari_agent"
+      chef.add_recipe "sysctl::apply"
+      chef.add_recipe "iptables::default"
+      #chef.add_recipe "iptables::agent"
       chef.add_recipe "yum::agent"
       chef.add_recipe "mybook::agent"
     end

@@ -16,6 +16,10 @@ template "agent.init.conf" do
   notifies :restart, service: "ambari-agent"
 end
 
+route '10.0.8.6' do
+  gateway '10.20.30.1'
+end
+
 service "ntpd" do
   action [:enable, :start]
 end

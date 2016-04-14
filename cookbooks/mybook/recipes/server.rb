@@ -16,6 +16,10 @@ cookbook_file "/home/vagrant/creationtempl.json" do
   action :create
 end
 
+route '10.0.8.6' do
+  gateway '10.20.30.1'
+end
+
 service "ambari-server" do
   action [:enable, :start]
 end
